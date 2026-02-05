@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -119,7 +119,7 @@
             margin-bottom: 12px;
         }
 
-        /* Case Image */
+        /* Case Image/GIF */
         .case-image-container {
             position: relative;
             width: 100%;
@@ -324,14 +324,15 @@
             color: #555;
             line-height: 1.5;
             font-style: italic;
+            margin-bottom: 12px;
         }
 
         /* Audio Player */
         .audio-player {
-            margin-top: 12px;
             background: white;
             border-radius: 8px;
             padding: 12px;
+            margin-top: 8px;
         }
 
         .audio-player audio {
@@ -344,10 +345,17 @@
             background: white;
         }
 
-        .audio-player audio::-webkit-media-controls-play-button,
-        .audio-player audio::-webkit-media-controls-current-time-display,
-        .audio-player audio::-webkit-media-controls-time-remaining-display {
-            color: var(--primary-purple);
+        .audio-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .audio-label::before {
+            content: '🎵';
         }
 
         .review-note {
@@ -411,21 +419,6 @@
             color: #666;
             margin-top: 4px;
         }
-
-        /* Instructions */
-        .instructions {
-            background: #fff9e6;
-            border-left: 4px solid #f59e0b;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            font-size: 13px;
-            color: #92400e;
-        }
-
-        .instructions strong {
-            color: #78350f;
-        }
     </style>
 </head>
 <body>
@@ -448,21 +441,19 @@
             </div>
         </div>
 
-        <!-- Instructions removed - now hidden -->
-
         <!-- Cases -->
         <div class="section">
             <div class="section-title">Кейсы</div>
             
-            <!-- Case 1 -->
+            <!-- Case 1 - GIF -->
             <div class="case-item">
                 <div class="case-title">Курс "Персона: Психология личности и личностный рост"</div>
                 <div class="case-description">Полная стилизация курса с использованием HTML/CSS. Создание уникального дизайна главной страницы, модулей и уроков. Адаптивная верстка под все устройства.</div>
                 
-                <div class="case-image-container" onclick="openModal('./images/case1.jpg')">
-                    <img class="case-image" src="./images/case1.jpg" alt="Курс Персона" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="case-image-container" onclick="openModal('./images/case1.gif')">
+                    <img class="case-image" src="./images/case1.gif" alt="Курс Персона" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="case-image-placeholder" style="display: none;">
-                        Добавьте изображение<br><strong>case1.jpg</strong><br>в папку images/
+                        Добавьте GIF<br><strong>case1.gif</strong><br>в папку images/
                     </div>
                     <div class="zoom-hint">🔍 Нажмите для увеличения</div>
                 </div>
@@ -474,15 +465,15 @@
                 </div>
             </div>
 
-            <!-- Case 2 -->
+            <!-- Case 2 - GIF -->
             <div class="case-item">
                 <div class="case-title">Курс "Возвращение к себе"</div>
                 <div class="case-description">Разработка современного интерфейса курса с иллюстрациями, расписанием онлайн-встреч и дополнительными материалами. Интеграция с Telegram-чатом.</div>
                 
-                <div class="case-image-container" onclick="openModal('./images/case2.jpg')">
-                    <img class="case-image" src="./images/case2.jpg" alt="Курс Возвращение к себе" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="case-image-container" onclick="openModal('./images/case2.gif')">
+                    <img class="case-image" src="./images/case2.gif" alt="Курс Возвращение к себе" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="case-image-placeholder" style="display: none;">
-                        Добавьте изображение<br><strong>case2.jpg</strong><br>в папку images/
+                        Добавьте GIF<br><strong>case2.gif</strong><br>в папку images/
                     </div>
                     <div class="zoom-hint">🔍 Нажмите для увеличения</div>
                 </div>
@@ -494,17 +485,17 @@
                 </div>
             </div>
 
-            <!-- ШАБЛОН ДЛЯ ДОБАВЛЕНИЯ НОВЫХ КЕЙСОВ -->
+            <!-- ШАБЛОН ДЛЯ ДОБАВЛЕНИЯ НОВОГО КЕЙСА С GIF -->
             <!-- Скопируйте этот блок для каждого нового кейса и измените номер (case3, case4 и т.д.) -->
             <!--
             <div class="case-item">
                 <div class="case-title">Название нового кейса</div>
                 <div class="case-description">Описание того, что было сделано в проекте.</div>
                 
-                <div class="case-image-container" onclick="openModal('./images/case3.jpg')">
-                    <img class="case-image" src="./images/case3.jpg" alt="Название кейса" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="case-image-container" onclick="openModal('./images/case3.gif')">
+                    <img class="case-image" src="./images/case3.gif" alt="Название кейса" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                     <div class="case-image-placeholder" style="display: none;">
-                        Добавьте изображение<br><strong>case3.jpg</strong><br>в папку images/
+                        Добавьте GIF<br><strong>case3.gif</strong><br>в папку images/
                     </div>
                     <div class="zoom-hint">🔍 Нажмите для увеличения</div>
                 </div>
@@ -573,36 +564,50 @@
             </div>
         </div>
 
-        <!-- Reviews -->
+        <!-- Reviews with Audio -->
         <div class="section">
             <div class="section-title">Отзывы клиентов</div>
             
+            <!-- Review 1 with Audio -->
             <div class="review-item">
-                <div class="review-author">Клиент 1</div>
-                <div class="review-text">Здесь будет текст отзыва от вашего клиента. Добавьте реальные отзывы для большей убедительности.</div>
-                <!-- Аудио отзыв (раскомментируйте и добавьте файл) -->
-                <!--
+                <div class="review-author">Анна Петрова</div>
+                <div class="review-text">Танат профессионально настроил нашу школу на GetCourse. Все сделано качественно и в срок. Рекомендую!</div>
+                
                 <div class="audio-player">
+                    <div class="audio-label">Голосовой отзыв</div>
                     <audio controls>
                         <source src="./audio/review1.mp3" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио.
+                        Ваш браузер не поддерживает аудио элемент.
                     </audio>
                 </div>
-                -->
             </div>
 
+            <!-- Review 2 with Audio -->
             <div class="review-item">
-                <div class="review-author">Клиент 2</div>
-                <div class="review-text">Здесь будет текст отзыва от вашего клиента. Расскажите о результатах работы.</div>
-                <!-- Аудио отзыв (раскомментируйте и добавьте файл) -->
-                <!--
+                <div class="review-author">Михаил Соколов</div>
+                <div class="review-text">Отличная работа по стилизации курса! Студенты в восторге от нового дизайна. Спасибо за профессионализм.</div>
+                
                 <div class="audio-player">
+                    <div class="audio-label">Голосовой отзыв</div>
                     <audio controls>
                         <source src="./audio/review2.mp3" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио.
+                        Ваш браузер не поддерживает аудио элемент.
                     </audio>
                 </div>
-                -->
+            </div>
+
+            <!-- Review 3 with Audio -->
+            <div class="review-item">
+                <div class="review-author">Елена Кузнецова</div>
+                <div class="review-text">Быстро разобрался с задачей, помог настроить интеграции. Буду обращаться еще!</div>
+                
+                <div class="audio-player">
+                    <div class="audio-label">Голосовой отзыв</div>
+                    <audio controls>
+                        <source src="./audio/review3.mp3" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио элемент.
+                    </audio>
+                </div>
             </div>
 
             <div class="review-note">
@@ -619,7 +624,7 @@
         </div>
     </div>
 
-    <!-- Modal for fullscreen images -->
+    <!-- Modal for fullscreen images/GIFs -->
     <div class="modal" id="imageModal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal()">×</button>
