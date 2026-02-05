@@ -1,0 +1,681 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Танат Кайдаров - GetCourse специалист</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --tg-theme-bg-color: #ffffff;
+            --tg-theme-text-color: #222222;
+            --tg-theme-hint-color: #999999;
+            --primary-purple: #7c3aed;
+            --secondary-purple: #a78bfa;
+            --light-purple: #f3f0ff;
+            --dark-purple: #5b21b6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #f3f0ff 0%, #ffffff 100%);
+            color: var(--tg-theme-text-color);
+            line-height: 1.6;
+            padding-bottom: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-purple) 0%, var(--dark-purple) 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 0 0 24px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .hero h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .hero .title {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 16px;
+        }
+
+        .hero .description {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Section Headers */
+        .section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-purple);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--primary-purple);
+            border-radius: 2px;
+        }
+
+        /* Cases */
+        .case-item {
+            background: var(--light-purple);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--primary-purple);
+        }
+
+        .case-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .case-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark-purple);
+            margin-bottom: 8px;
+        }
+
+        .case-description {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        /* Case Image */
+        .case-image-container {
+            position: relative;
+            width: 100%;
+            margin: 12px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .case-image-container:hover {
+            transform: scale(1.02);
+        }
+
+        .case-image-container:active {
+            transform: scale(0.98);
+        }
+
+        .case-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .case-image-placeholder {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 14px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .case-image-placeholder::before {
+            content: '📸';
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .zoom-hint {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+        }
+
+        .case-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .case-tag {
+            background: white;
+            color: var(--primary-purple);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.2s;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 100%;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: white;
+            color: #333;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        .modal-close:hover {
+            transform: scale(1.1);
+        }
+
+        .modal-close:active {
+            transform: scale(0.95);
+        }
+
+        /* Platforms */
+        .platform-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .platform-item:last-child {
+            border-bottom: none;
+        }
+
+        .platform-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .platform-experience {
+            font-size: 13px;
+            color: #666;
+        }
+
+        .skill-bar {
+            width: 100%;
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 3px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-purple), var(--secondary-purple));
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Reviews */
+        .review-item {
+            background: var(--light-purple);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .review-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .review-author {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark-purple);
+            margin-bottom: 8px;
+        }
+
+        .review-text {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+            font-style: italic;
+        }
+
+        /* Audio Player */
+        .audio-player {
+            margin-top: 12px;
+            background: white;
+            border-radius: 8px;
+            padding: 12px;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+
+        .audio-player audio::-webkit-media-controls-panel {
+            background: white;
+        }
+
+        .audio-player audio::-webkit-media-controls-play-button,
+        .audio-player audio::-webkit-media-controls-current-time-display,
+        .audio-player audio::-webkit-media-controls-time-remaining-display {
+            color: var(--primary-purple);
+        }
+
+        .review-note {
+            font-size: 13px;
+            color: #888;
+            text-align: center;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-top: 8px;
+        }
+
+        /* Contact Button */
+        .contact-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary-purple), var(--dark-purple));
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .contact-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+        }
+
+        .contact-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: var(--light-purple);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-purple);
+        }
+
+        .stat-label {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* Instructions */
+        .instructions {
+            background: #fff9e6;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #92400e;
+        }
+
+        .instructions strong {
+            color: #78350f;
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <h1>Танат Кайдаров</h1>
+        <div class="title">Специалист по GetCourse/AXL</div>
+        <div class="description">Запуск и настройка онлайн-школ под ключ. Стилизация курсов с помощью HTML/CSS</div>
+    </div>
+
+    <div class="container">
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">3+</div>
+                <div class="stat-label">года с GetCourse</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">платформ</div>
+            </div>
+        </div>
+
+        <!-- Instructions removed - now hidden -->
+
+        <!-- Cases -->
+        <div class="section">
+            <div class="section-title">Кейсы</div>
+            
+            <!-- Case 1 -->
+            <div class="case-item">
+                <div class="case-title">Курс "Персона: Психология личности и личностный рост"</div>
+                <div class="case-description">Полная стилизация курса с использованием HTML/CSS. Создание уникального дизайна главной страницы, модулей и уроков. Адаптивная верстка под все устройства.</div>
+                
+                <div class="case-image-container" onclick="openModal('./images/case1.jpg')">
+                    <img class="case-image" src="./images/case1.jpg" alt="Курс Персона" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="case-image-placeholder" style="display: none;">
+                        Добавьте изображение<br><strong>case1.jpg</strong><br>в папку images/
+                    </div>
+                    <div class="zoom-hint">🔍 Нажмите для увеличения</div>
+                </div>
+
+                <div class="case-tags">
+                    <span class="case-tag">GetCourse</span>
+                    <span class="case-tag">HTML/CSS</span>
+                    <span class="case-tag">Дизайн</span>
+                </div>
+            </div>
+
+            <!-- Case 2 -->
+            <div class="case-item">
+                <div class="case-title">Курс "Возвращение к себе"</div>
+                <div class="case-description">Разработка современного интерфейса курса с иллюстрациями, расписанием онлайн-встреч и дополнительными материалами. Интеграция с Telegram-чатом.</div>
+                
+                <div class="case-image-container" onclick="openModal('./images/case2.jpg')">
+                    <img class="case-image" src="./images/case2.jpg" alt="Курс Возвращение к себе" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="case-image-placeholder" style="display: none;">
+                        Добавьте изображение<br><strong>case2.jpg</strong><br>в папку images/
+                    </div>
+                    <div class="zoom-hint">🔍 Нажмите для увеличения</div>
+                </div>
+
+                <div class="case-tags">
+                    <span class="case-tag">GetCourse</span>
+                    <span class="case-tag">Дизайн</span>
+                    <span class="case-tag">Telegram</span>
+                </div>
+            </div>
+
+            <!-- ШАБЛОН ДЛЯ ДОБАВЛЕНИЯ НОВЫХ КЕЙСОВ -->
+            <!-- Скопируйте этот блок для каждого нового кейса и измените номер (case3, case4 и т.д.) -->
+            <!--
+            <div class="case-item">
+                <div class="case-title">Название нового кейса</div>
+                <div class="case-description">Описание того, что было сделано в проекте.</div>
+                
+                <div class="case-image-container" onclick="openModal('./images/case3.jpg')">
+                    <img class="case-image" src="./images/case3.jpg" alt="Название кейса" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="case-image-placeholder" style="display: none;">
+                        Добавьте изображение<br><strong>case3.jpg</strong><br>в папку images/
+                    </div>
+                    <div class="zoom-hint">🔍 Нажмите для увеличения</div>
+                </div>
+
+                <div class="case-tags">
+                    <span class="case-tag">Тег 1</span>
+                    <span class="case-tag">Тег 2</span>
+                </div>
+            </div>
+            -->
+            
+        </div>
+
+        <!-- Platforms & Skills -->
+        <div class="section">
+            <div class="section-title">Платформы и навыки</div>
+            
+            <div class="platform-item">
+                <div>
+                    <div class="platform-name">GetCourse</div>
+                    <div class="platform-experience">Опыт работы > 3 лет · Знание 9/10</div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 90%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="platform-item">
+                <div>
+                    <div class="platform-name">AXL (ProdamusXL)</div>
+                    <div class="platform-experience">Опыт работы > 1 года · Знание 7/10</div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="platform-item">
+                <div>
+                    <div class="platform-name">BotHelp</div>
+                    <div class="platform-experience">Опыт работы > 2 лет · Знание 7/10</div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="platform-item">
+                <div>
+                    <div class="platform-name">Tilda</div>
+                    <div class="platform-experience">Опыт работы > 2 лет · Знание 6/10</div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 60%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="platform-item">
+                <div>
+                    <div class="platform-name">SaleBot</div>
+                    <div class="platform-experience">Опыт работы < 1 года · Знание 5/10</div>
+                    <div class="skill-bar">
+                        <div class="skill-progress" style="width: 50%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="section">
+            <div class="section-title">Отзывы клиентов</div>
+            
+            <div class="review-item">
+                <div class="review-author">Клиент 1</div>
+                <div class="review-text">Здесь будет текст отзыва от вашего клиента. Добавьте реальные отзывы для большей убедительности.</div>
+                <!-- Аудио отзыв (раскомментируйте и добавьте файл) -->
+                <!--
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="./audio/review1.mp3" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </div>
+                -->
+            </div>
+
+            <div class="review-item">
+                <div class="review-author">Клиент 2</div>
+                <div class="review-text">Здесь будет текст отзыва от вашего клиента. Расскажите о результатах работы.</div>
+                <!-- Аудио отзыв (раскомментируйте и добавьте файл) -->
+                <!--
+                <div class="audio-player">
+                    <audio controls>
+                        <source src="./audio/review2.mp3" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио.
+                    </audio>
+                </div>
+                -->
+            </div>
+
+            <div class="review-note">
+                💬 Больше отзывов доступно по запросу в личных сообщениях
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="section">
+            <div class="section-title">Свяжитесь со мной</div>
+            <a href="https://t.me/qaidarrr" class="contact-btn">
+                📱 Написать в Telegram
+            </a>
+        </div>
+    </div>
+
+    <!-- Modal for fullscreen images -->
+    <div class="modal" id="imageModal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <img class="modal-image" id="modalImage" src="" alt="Full size">
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        let tg = window.Telegram.WebApp;
+        tg.expand();
+        
+        // Применяем тему Telegram
+        document.documentElement.style.setProperty('--tg-theme-bg-color', tg.themeParams.bg_color || '#ffffff');
+        document.documentElement.style.setProperty('--tg-theme-text-color', tg.themeParams.text_color || '#222222');
+
+        // Modal functionality
+        function openModal(imageSrc) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modal.classList.add('active');
+            modalImg.src = imageSrc;
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Анимация при загрузке
+        window.addEventListener('load', () => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                setTimeout(() => {
+                    section.style.opacity = '0';
+                    section.style.transform = 'translateY(20px)';
+                    section.style.transition = 'opacity 0.5s, transform 0.5s';
+                    setTimeout(() => {
+                        section.style.opacity = '1';
+                        section.style.transform = 'translateY(0)';
+                    }, 50);
+                }, index * 100);
+            });
+        });
+
+        // Готов к показу
+        tg.ready();
+    </script>
+</body>
+</html>
