@@ -123,6 +123,7 @@
             position: relative;
             width: 100%;
             margin: 12px 0;
+            padding: 0 44px;
         }
 
         .gallery-slider {
@@ -143,6 +144,10 @@
         .gallery-slide {
             flex: 0 0 100%;
             scroll-snap-align: start;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
         }
 
         /* Nav arrows */
@@ -150,11 +155,11 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
+            width: 34px;
+            height: 34px;
             border: none;
             border-radius: 50%;
-            background: rgba(124, 58, 237, 0.85);
+            background: rgba(124, 58, 237, 0.9);
             color: white;
             font-size: 20px;
             line-height: 1;
@@ -173,14 +178,18 @@
         }
 
         .gallery-arrow.prev {
-            left: 8px;
+            left: 2px;
         }
 
         .gallery-arrow.next {
-            right: 8px;
+            right: 2px;
         }
 
         /* Скрываем стрелки, если слайд один */
+        .gallery.single-slide {
+            padding: 0;
+        }
+
         .gallery.single-slide .gallery-arrow {
             display: none;
         }
@@ -586,7 +595,6 @@
                     <div class="gallery-slider">
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case3-1.jpg" alt="Заявки 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case3-1.jpg</div></div>
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case3-2.jpg" alt="Заявки 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case3-2.jpg</div></div>
-                        <div class="gallery-slide"><img class="gallery-image" src="./images/case3-3.jpg" alt="Заявки 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case3-3.jpg</div></div>
                     </div>
                     <div class="gallery-dots">
                         <div class="gallery-dot active"></div><div class="gallery-dot"></div><div class="gallery-dot"></div>
@@ -682,7 +690,7 @@
             <div class="section-title">Отзывы клиентов</div>
 
             <div class="review-item">
-                <div class="review-author">Клиент онлайн-школы</div>
+                <div class="review-author">Алена Т.</div>
                 <div class="audio-player">
                     <div class="audio-label">Голосовой отзыв</div>
                     <audio controls><source src="./audio/review1.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
@@ -690,7 +698,7 @@
             </div>
 
             <div class="review-item">
-                <div class="review-author">Клиент онлайн-школы</div>
+                <div class="review-author">Евгения К.</div>
                 <div class="audio-player">
                     <div class="audio-label">Голосовой отзыв</div>
                     <audio controls><source src="./audio/review2.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
@@ -698,7 +706,7 @@
             </div>
 
             <div class="review-item">
-                <div class="review-author">Клиент онлайн-школы</div>
+                <div class="review-author">Полина Л.</div>
                 <div class="audio-player">
                     <div class="audio-label">Голосовой отзыв</div>
                     <audio controls><source src="./audio/review3.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
@@ -706,7 +714,7 @@
             </div>
 
             <div class="review-item">
-                <div class="review-author">Клиент онлайн-школы</div>
+                <div class="review-author">София Б.</div>
                 <div class="audio-player">
                     <div class="audio-label">Голосовой отзыв</div>
                     <audio controls><source src="./audio/review4.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
@@ -752,11 +760,24 @@
             }
         });
 
-        // Gallery arrows
+        // Gallery arrows (с цикличностью)
         function slideGallery(btn, direction) {
             const slider = btn.parentElement.querySelector('.gallery-slider');
-            const slideWidth = slider.querySelector('.gallery-slide').offsetWidth + 8;
-            slider.scrollBy({ left: slideWidth * direction, behavior: 'smooth' });
+            const slides = slider.querySelectorAll('.gallery-slide');
+            const slideWidth = slides[0].offsetWidth + 8;
+            const current = Math.round(slider.scrollLeft / slideWidth);
+            const total = slides.length;
+            let next = current + direction;
+
+            if (next < 0) {
+                // с первого слайда назад → на последний
+                slider.scrollTo({ left: slideWidth * (total - 1), behavior: 'smooth' });
+            } else if (next >= total) {
+                // с последнего вперёд → на первый
+                slider.scrollTo({ left: 0, behavior: 'smooth' });
+            } else {
+                slider.scrollTo({ left: slideWidth * next, behavior: 'smooth' });
+            }
         }
 
         // Modal on image click
