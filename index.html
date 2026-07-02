@@ -145,13 +145,55 @@
             scroll-snap-align: start;
         }
 
+        /* Nav arrows */
+        .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(124, 58, 237, 0.85);
+            color: white;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: background 0.2s;
+            padding: 0;
+        }
+
+        .gallery-arrow:hover {
+            background: var(--dark-purple);
+        }
+
+        .gallery-arrow.prev {
+            left: 8px;
+        }
+
+        .gallery-arrow.next {
+            right: 8px;
+        }
+
+        /* Скрываем стрелки, если слайд один */
+        .gallery.single-slide .gallery-arrow {
+            display: none;
+        }
+
         .gallery-image {
             width: 100%;
-            height: 200px;
-            object-fit: cover;
+            height: auto;
+            max-height: 420px;
+            object-fit: contain;
             border-radius: 8px;
             display: block;
             cursor: pointer;
+            background: #f3f0ff;
         }
 
         .gallery-placeholder {
@@ -492,6 +534,8 @@
                 <div class="case-title">Стилизация курсов</div>
                 <div class="case-description">Полная стилизация курсов с использованием HTML/CSS. Уникальный дизайн главных страниц, модулей и уроков. Адаптивная верстка под все устройства.</div>
                 <div class="gallery">
+                    <button class="gallery-arrow prev" onclick="slideGallery(this, -1)">‹</button>
+                    <button class="gallery-arrow next" onclick="slideGallery(this, 1)">›</button>
                     <div class="gallery-slider">
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case1-1.jpg" alt="Стилизация 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case1-1.jpg</div></div>
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case1-2.jpg" alt="Стилизация 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case1-2.jpg</div></div>
@@ -515,6 +559,8 @@
                 <div class="case-title">Чат-бот «Опросник уровня субъективного счастья»</div>
                 <div class="case-description">Разработка интерактивного чат-бота для проведения психологического опроса с автоматическим подсчётом результатов.</div>
                 <div class="gallery">
+                    <button class="gallery-arrow prev" onclick="slideGallery(this, -1)">‹</button>
+                    <button class="gallery-arrow next" onclick="slideGallery(this, 1)">›</button>
                     <div class="gallery-slider">
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case2-1.jpg" alt="Опросник 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case2-1.jpg</div></div>
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case2-2.jpg" alt="Опросник 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case2-2.jpg</div></div>
@@ -526,7 +572,7 @@
                 </div>
                 <div class="case-tags">
                     <span class="case-tag">Чат-бот</span>
-                    <span class="case-tag">GetCourse</span>
+                    <span class="case-tag">BotHelp</span>
                 </div>
             </div>
 
@@ -535,6 +581,8 @@
                 <div class="case-title">Чат-бот для сбора заявок</div>
                 <div class="case-description">Чат-бот для сбора заявок и формирования единого списка для отправки менеджерам. Автоматизация обработки лидов.</div>
                 <div class="gallery">
+                    <button class="gallery-arrow prev" onclick="slideGallery(this, -1)">‹</button>
+                    <button class="gallery-arrow next" onclick="slideGallery(this, 1)">›</button>
                     <div class="gallery-slider">
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case3-1.jpg" alt="Заявки 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case3-1.jpg</div></div>
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case3-2.jpg" alt="Заявки 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case3-2.jpg</div></div>
@@ -554,7 +602,7 @@
             <div class="case-item">
                 <div class="case-title">Бот-администратор Telegram-групп</div>
                 <div class="case-description">Настройка бота для автоматического администрирования Telegram-групп: модерация, приветствия, управление участниками.</div>
-                <div class="gallery">
+                <div class="gallery single-slide">
                     <div class="gallery-slider">
                         <div class="gallery-slide"><img class="gallery-image" src="./images/case4-1.jpg" alt="Админ-бот" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case4-1.jpg</div></div>
                     </div>
@@ -703,6 +751,13 @@
                 });
             }
         });
+
+        // Gallery arrows
+        function slideGallery(btn, direction) {
+            const slider = btn.parentElement.querySelector('.gallery-slider');
+            const slideWidth = slider.querySelector('.gallery-slide').offsetWidth + 8;
+            slider.scrollBy({ left: slideWidth * direction, behavior: 'smooth' });
+        }
 
         // Modal on image click
         document.querySelectorAll('.gallery-image').forEach(img => {
