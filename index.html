@@ -15,7 +15,6 @@
         :root {
             --tg-theme-bg-color: #ffffff;
             --tg-theme-text-color: #222222;
-            --tg-theme-hint-color: #999999;
             --primary-purple: #7c3aed;
             --secondary-purple: #a78bfa;
             --light-purple: #f3f0ff;
@@ -65,7 +64,7 @@
             line-height: 1.5;
         }
 
-        /* Section Headers */
+        /* Section */
         .section {
             background: white;
             border-radius: 16px;
@@ -119,34 +118,43 @@
             margin-bottom: 12px;
         }
 
-        /* Case Image/GIF */
-        .case-image-container {
+        /* Gallery Slider */
+        .gallery {
             position: relative;
             width: 100%;
             margin: 12px 0;
+        }
+
+        .gallery-slider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            gap: 8px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
             border-radius: 8px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.2s;
         }
 
-        .case-image-container:hover {
-            transform: scale(1.02);
+        .gallery-slider::-webkit-scrollbar {
+            display: none;
         }
 
-        .case-image-container:active {
-            transform: scale(0.98);
+        .gallery-slide {
+            flex: 0 0 100%;
+            scroll-snap-align: start;
         }
 
-        .case-image {
+        .gallery-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            display: block;
             border-radius: 8px;
+            display: block;
+            cursor: pointer;
         }
 
-        .case-image-placeholder {
+        .gallery-placeholder {
             width: 100%;
             height: 200px;
             background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%);
@@ -155,28 +163,37 @@
             align-items: center;
             justify-content: center;
             color: #9ca3af;
-            font-size: 14px;
+            font-size: 13px;
             text-align: center;
             padding: 20px;
             border-radius: 8px;
         }
 
-        .case-image-placeholder::before {
-            content: '📸';
-            font-size: 32px;
-            margin-bottom: 8px;
+        .gallery-placeholder::before {
+            content: '🖼️';
+            font-size: 28px;
+            margin-bottom: 6px;
         }
 
-        .zoom-hint {
-            position: absolute;
-            bottom: 8px;
-            right: 8px;
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            pointer-events: none;
+        .gallery-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .gallery-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #d1d5db;
+            transition: all 0.3s;
+        }
+
+        .gallery-dot.active {
+            width: 20px;
+            border-radius: 3px;
+            background: var(--primary-purple);
         }
 
         .case-tags {
@@ -195,72 +212,72 @@
             font-weight: 500;
         }
 
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Landing Cards */
+        .landing-item {
+            background: var(--light-purple);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .landing-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .landing-image {
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            animation: fadeIn 0.2s;
+            height: 160px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+            margin-bottom: 12px;
         }
 
-        .modal.active {
-            display: flex;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            position: relative;
-            max-width: 100%;
-            max-height: 90vh;
+        .landing-placeholder {
+            width: 100%;
+            height: 160px;
+            background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .modal-image {
-            max-width: 100%;
-            max-height: 90vh;
-            object-fit: contain;
-            border-radius: 8px;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: -50px;
-            right: 0;
-            background: white;
-            color: #333;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: transform 0.2s;
+            color: #9ca3af;
+            font-size: 13px;
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
         }
 
-        .modal-close:hover {
-            transform: scale(1.1);
+        .landing-placeholder::before {
+            content: '🖼️';
+            font-size: 28px;
+            margin-bottom: 6px;
         }
 
-        .modal-close:active {
-            transform: scale(0.95);
+        .landing-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--dark-purple);
+            margin-bottom: 10px;
+        }
+
+        .landing-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 10px;
+            background: var(--primary-purple);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        .landing-btn:active {
+            background: var(--dark-purple);
         }
 
         /* Platforms */
@@ -297,7 +314,6 @@
             height: 100%;
             background: linear-gradient(90deg, var(--primary-purple), var(--secondary-purple));
             border-radius: 3px;
-            transition: width 0.3s ease;
         }
 
         /* Reviews */
@@ -316,33 +332,19 @@
             font-size: 14px;
             font-weight: 600;
             color: var(--dark-purple);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
-        .review-text {
-            font-size: 14px;
-            color: #555;
-            line-height: 1.5;
-            font-style: italic;
-            margin-bottom: 12px;
-        }
-
-        /* Audio Player */
         .audio-player {
             background: white;
             border-radius: 8px;
             padding: 12px;
-            margin-top: 8px;
         }
 
         .audio-player audio {
             width: 100%;
             height: 40px;
             outline: none;
-        }
-
-        .audio-player audio::-webkit-media-controls-panel {
-            background: white;
         }
 
         .audio-label {
@@ -381,16 +383,10 @@
             font-weight: 600;
             font-size: 16px;
             box-shadow: 0 4px 16px rgba(124, 58, 237, 0.3);
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .contact-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
         }
 
         .contact-btn:active {
-            transform: translateY(0);
+            transform: translateY(1px);
         }
 
         /* Stats */
@@ -419,13 +415,59 @@
             color: #666;
             margin-top: 4px;
         }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 100%;
+            max-height: 90vh;
+        }
+
+        .modal-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            background: white;
+            color: #333;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
     <div class="hero">
         <h1>Танат Кайдаров</h1>
         <div class="title">Специалист по GetCourse/AXL</div>
-        <div class="description">Запуск и настройка онлайн-школ под ключ. Стилизация курсов с помощью HTML/CSS</div>
+        <div class="description">Запуск и настройка онлайн-школ под ключ. Стилизация курсов, чат-боты, интеграции</div>
     </div>
 
     <div class="container">
@@ -444,20 +486,23 @@
         <!-- Cases -->
         <div class="section">
             <div class="section-title">Кейсы</div>
-            
-            <!-- Case 1 - GIF -->
-            <div class="case-item">
-                <div class="case-title">Курс "Персона: Психология личности и личностный рост"</div>
-                <div class="case-description">Полная стилизация курса с использованием HTML/CSS. Создание уникального дизайна главной страницы, модулей и уроков. Адаптивная верстка под все устройства.</div>
-                
-                <div class="case-image-container" onclick="openModal('./images/case1.gif')">
-                    <img class="case-image" src="./images/case1.gif" alt="Курс Персона" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="case-image-placeholder" style="display: none;">
-                        Добавьте GIF<br><strong>case1.gif</strong><br>в папку images/
-                    </div>
-                    <div class="zoom-hint">🔍 Нажмите для увеличения</div>
-                </div>
 
+            <!-- Case 1: 5 слайдов -->
+            <div class="case-item">
+                <div class="case-title">Стилизация курсов</div>
+                <div class="case-description">Полная стилизация курсов с использованием HTML/CSS. Уникальный дизайн главных страниц, модулей и уроков. Адаптивная верстка под все устройства.</div>
+                <div class="gallery">
+                    <div class="gallery-slider">
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case1-1.jpg" alt="Стилизация 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case1-1.jpg</div></div>
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case1-2.jpg" alt="Стилизация 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case1-2.jpg</div></div>
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case1-3.jpg" alt="Стилизация 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case1-3.jpg</div></div>
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case1-4.jpg" alt="Стилизация 4" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case1-4.jpg</div></div>
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case1-5.jpg" alt="Стилизация 5" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case1-5.jpg</div></div>
+                    </div>
+                    <div class="gallery-dots">
+                        <div class="gallery-dot active"></div><div class="gallery-dot"></div><div class="gallery-dot"></div><div class="gallery-dot"></div><div class="gallery-dot"></div>
+                    </div>
+                </div>
                 <div class="case-tags">
                     <span class="case-tag">GetCourse</span>
                     <span class="case-tag">HTML/CSS</span>
@@ -465,148 +510,158 @@
                 </div>
             </div>
 
-            <!-- Case 2 - GIF -->
+            <!-- Case 2: 3 слайда -->
             <div class="case-item">
-                <div class="case-title">Курс "Возвращение к себе"</div>
-                <div class="case-description">Разработка современного интерфейса курса с иллюстрациями, расписанием онлайн-встреч и дополнительными материалами. Интеграция с Telegram-чатом.</div>
-                
-                <div class="case-image-container" onclick="openModal('./images/case2.gif')">
-                    <img class="case-image" src="./images/case2.gif" alt="Курс Возвращение к себе" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="case-image-placeholder" style="display: none;">
-                        Добавьте GIF<br><strong>case2.gif</strong><br>в папку images/
+                <div class="case-title">Чат-бот «Опросник уровня субъективного счастья»</div>
+                <div class="case-description">Разработка интерактивного чат-бота для проведения психологического опроса с автоматическим подсчётом результатов.</div>
+                <div class="gallery">
+                    <div class="gallery-slider">
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case2-1.jpg" alt="Опросник 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case2-1.jpg</div></div>
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case2-2.jpg" alt="Опросник 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case2-2.jpg</div></div>
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case2-3.jpg" alt="Опросник 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case2-3.jpg</div></div>
                     </div>
-                    <div class="zoom-hint">🔍 Нажмите для увеличения</div>
+                    <div class="gallery-dots">
+                        <div class="gallery-dot active"></div><div class="gallery-dot"></div><div class="gallery-dot"></div>
+                    </div>
                 </div>
-
                 <div class="case-tags">
+                    <span class="case-tag">Чат-бот</span>
                     <span class="case-tag">GetCourse</span>
-                    <span class="case-tag">Дизайн</span>
-                    <span class="case-tag">Telegram</span>
                 </div>
             </div>
 
-            <!-- ШАБЛОН ДЛЯ ДОБАВЛЕНИЯ НОВОГО КЕЙСА С GIF -->
-            <!-- Скопируйте этот блок для каждого нового кейса и измените номер (case3, case4 и т.д.) -->
-            <!--
+            <!-- Case 3: 3 слайда -->
             <div class="case-item">
-                <div class="case-title">Название нового кейса</div>
-                <div class="case-description">Описание того, что было сделано в проекте.</div>
-                
-                <div class="case-image-container" onclick="openModal('./images/case3.gif')">
-                    <img class="case-image" src="./images/case3.gif" alt="Название кейса" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="case-image-placeholder" style="display: none;">
-                        Добавьте GIF<br><strong>case3.gif</strong><br>в папку images/
+                <div class="case-title">Чат-бот для сбора заявок</div>
+                <div class="case-description">Чат-бот для сбора заявок и формирования единого списка для отправки менеджерам. Автоматизация обработки лидов.</div>
+                <div class="gallery">
+                    <div class="gallery-slider">
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case3-1.jpg" alt="Заявки 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case3-1.jpg</div></div>
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case3-2.jpg" alt="Заявки 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case3-2.jpg</div></div>
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case3-3.jpg" alt="Заявки 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case3-3.jpg</div></div>
                     </div>
-                    <div class="zoom-hint">🔍 Нажмите для увеличения</div>
+                    <div class="gallery-dots">
+                        <div class="gallery-dot active"></div><div class="gallery-dot"></div><div class="gallery-dot"></div>
+                    </div>
                 </div>
-
                 <div class="case-tags">
-                    <span class="case-tag">Тег 1</span>
-                    <span class="case-tag">Тег 2</span>
+                    <span class="case-tag">Чат-бот</span>
+                    <span class="case-tag">Автоматизация</span>
                 </div>
             </div>
-            -->
-            
+
+            <!-- Case 4: 1 слайд -->
+            <div class="case-item">
+                <div class="case-title">Бот-администратор Telegram-групп</div>
+                <div class="case-description">Настройка бота для автоматического администрирования Telegram-групп: модерация, приветствия, управление участниками.</div>
+                <div class="gallery">
+                    <div class="gallery-slider">
+                        <div class="gallery-slide"><img class="gallery-image" src="./images/case4-1.jpg" alt="Админ-бот" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"><div class="gallery-placeholder" style="display:none;">case4-1.jpg</div></div>
+                    </div>
+                </div>
+                <div class="case-tags">
+                    <span class="case-tag">Telegram</span>
+                    <span class="case-tag">Автоматизация</span>
+                </div>
+            </div>
         </div>
 
-        <!-- Platforms & Skills -->
+        <!-- Landings -->
+        <div class="section">
+            <div class="section-title">Лендинги на GetCourse</div>
+
+            <div class="landing-item">
+                <img class="landing-image" src="./images/land1.jpg" alt="Лендинг 1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="landing-placeholder" style="display:none;">land1.jpg</div>
+                <div class="landing-title">Страница регистрации на вебинар</div>
+                <a href="https://oilanuniversity.com/web_20.05" class="landing-btn" target="_blank">Смотреть</a>
+            </div>
+
+            <div class="landing-item">
+                <img class="landing-image" src="./images/land2.jpg" alt="Лендинг 2" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="landing-placeholder" style="display:none;">land2.jpg</div>
+                <div class="landing-title">Продающая страница курса «Психолог-тренер ДМД»</div>
+                <a href="https://oilanuniversity.com/psy_coach_dmd" class="landing-btn" target="_blank">Смотреть</a>
+            </div>
+
+            <div class="landing-item">
+                <img class="landing-image" src="./images/land3.jpg" alt="Лендинг 3" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="landing-placeholder" style="display:none;">land3.jpg</div>
+                <div class="landing-title">Летняя онлайн-школа по психологии</div>
+                <a href="https://oilanuniversity.com/summer_school" class="landing-btn" target="_blank">Смотреть</a>
+            </div>
+
+            <div class="landing-item">
+                <img class="landing-image" src="./images/land4.jpg" alt="Лендинг 4" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                <div class="landing-placeholder" style="display:none;">land4.jpg</div>
+                <div class="landing-title">Страница регистрации на интенсив</div>
+                <a href="https://oilanuniversity.com/web_july" class="landing-btn" target="_blank">Смотреть</a>
+            </div>
+        </div>
+
+        <!-- Platforms -->
         <div class="section">
             <div class="section-title">Платформы и навыки</div>
-            
             <div class="platform-item">
-                <div>
-                    <div class="platform-name">GetCourse</div>
-                    <div class="platform-experience">Опыт работы > 3 лет · Знание 9/10</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 90%"></div>
-                    </div>
-                </div>
+                <div class="platform-name">GetCourse</div>
+                <div class="platform-experience">Опыт работы > 3 лет · Знание 9/10</div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 90%"></div></div>
             </div>
-
             <div class="platform-item">
-                <div>
-                    <div class="platform-name">AXL (ProdamusXL)</div>
-                    <div class="platform-experience">Опыт работы > 1 года · Знание 7/10</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 70%"></div>
-                    </div>
-                </div>
+                <div class="platform-name">AXL (ProdamusXL)</div>
+                <div class="platform-experience">Опыт работы > 1 года · Знание 7/10</div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 70%"></div></div>
             </div>
-
             <div class="platform-item">
-                <div>
-                    <div class="platform-name">BotHelp</div>
-                    <div class="platform-experience">Опыт работы > 2 лет · Знание 7/10</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 70%"></div>
-                    </div>
-                </div>
+                <div class="platform-name">BotHelp</div>
+                <div class="platform-experience">Опыт работы > 2 лет · Знание 7/10</div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 70%"></div></div>
             </div>
-
             <div class="platform-item">
-                <div>
-                    <div class="platform-name">Tilda</div>
-                    <div class="platform-experience">Опыт работы > 2 лет · Знание 6/10</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 60%"></div>
-                    </div>
-                </div>
+                <div class="platform-name">Tilda</div>
+                <div class="platform-experience">Опыт работы > 2 лет · Знание 6/10</div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 60%"></div></div>
             </div>
-
             <div class="platform-item">
-                <div>
-                    <div class="platform-name">SaleBot</div>
-                    <div class="platform-experience">Опыт работы < 1 года · Знание 5/10</div>
-                    <div class="skill-bar">
-                        <div class="skill-progress" style="width: 50%"></div>
-                    </div>
-                </div>
+                <div class="platform-name">SaleBot</div>
+                <div class="platform-experience">Опыт работы < 1 года · Знание 5/10</div>
+                <div class="skill-bar"><div class="skill-progress" style="width: 50%"></div></div>
             </div>
         </div>
 
-        <!-- Reviews with Audio -->
+        <!-- Reviews -->
         <div class="section">
             <div class="section-title">Отзывы клиентов</div>
-            
-            <!-- Review 1 with Audio -->
+
             <div class="review-item">
-                <div class="review-author">Анна Петрова</div>
-                <div class="review-text">Танат профессионально настроил нашу школу на GetCourse. Все сделано качественно и в срок. Рекомендую!</div>
-                
+                <div class="review-author">Клиент онлайн-школы</div>
                 <div class="audio-player">
                     <div class="audio-label">Голосовой отзыв</div>
-                    <audio controls>
-                        <source src="./audio/review1.mp3" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио элемент.
-                    </audio>
+                    <audio controls><source src="./audio/review1.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
                 </div>
             </div>
 
-            <!-- Review 2 with Audio -->
             <div class="review-item">
-                <div class="review-author">Михаил Соколов</div>
-                <div class="review-text">Отличная работа по стилизации курса! Студенты в восторге от нового дизайна. Спасибо за профессионализм.</div>
-                
+                <div class="review-author">Клиент онлайн-школы</div>
                 <div class="audio-player">
                     <div class="audio-label">Голосовой отзыв</div>
-                    <audio controls>
-                        <source src="./audio/review2.mp3" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио элемент.
-                    </audio>
+                    <audio controls><source src="./audio/review2.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
                 </div>
             </div>
 
-            <!-- Review 3 with Audio -->
             <div class="review-item">
-                <div class="review-author">Елена Кузнецова</div>
-                <div class="review-text">Быстро разобрался с задачей, помог настроить интеграции. Буду обращаться еще!</div>
-                
+                <div class="review-author">Клиент онлайн-школы</div>
                 <div class="audio-player">
                     <div class="audio-label">Голосовой отзыв</div>
-                    <audio controls>
-                        <source src="./audio/review3.mp3" type="audio/mpeg">
-                        Ваш браузер не поддерживает аудио элемент.
-                    </audio>
+                    <audio controls><source src="./audio/review3.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
+                </div>
+            </div>
+
+            <div class="review-item">
+                <div class="review-author">Клиент онлайн-школы</div>
+                <div class="audio-player">
+                    <div class="audio-label">Голосовой отзыв</div>
+                    <audio controls><source src="./audio/review4.mp3" type="audio/mpeg">Ваш браузер не поддерживает аудио.</audio>
                 </div>
             </div>
 
@@ -618,13 +673,11 @@
         <!-- Contact -->
         <div class="section">
             <div class="section-title">Свяжитесь со мной</div>
-            <a href="https://t.me/qaidarrr" class="contact-btn">
-                📱 Написать в Telegram
-            </a>
+            <a href="https://t.me/qaidarrr" class="contact-btn">📱 Написать в Telegram</a>
         </div>
     </div>
 
-    <!-- Modal for fullscreen images/GIFs -->
+    <!-- Modal -->
     <div class="modal" id="imageModal" onclick="closeModal()">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal()">×</button>
@@ -633,53 +686,57 @@
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
         let tg = window.Telegram.WebApp;
         tg.expand();
-        
-        // Применяем тему Telegram
         document.documentElement.style.setProperty('--tg-theme-bg-color', tg.themeParams.bg_color || '#ffffff');
         document.documentElement.style.setProperty('--tg-theme-text-color', tg.themeParams.text_color || '#222222');
 
-        // Modal functionality
-        function openModal(imageSrc) {
+        // Gallery dots
+        document.querySelectorAll('.gallery').forEach(gallery => {
+            const slider = gallery.querySelector('.gallery-slider');
+            const dots = gallery.querySelectorAll('.gallery-dot');
+            if (dots.length > 0) {
+                slider.addEventListener('scroll', () => {
+                    const slideWidth = slider.querySelector('.gallery-slide').offsetWidth;
+                    const current = Math.round(slider.scrollLeft / slideWidth);
+                    dots.forEach((dot, i) => dot.classList.toggle('active', i === current));
+                });
+            }
+        });
+
+        // Modal on image click
+        document.querySelectorAll('.gallery-image').forEach(img => {
+            img.addEventListener('click', function() {
+                openModal(this.src);
+            });
+        });
+
+        function openModal(src) {
             const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
+            document.getElementById('modalImage').src = src;
             modal.classList.add('active');
-            modalImg.src = imageSrc;
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal() {
-            const modal = document.getElementById('imageModal');
-            modal.classList.remove('active');
+            document.getElementById('imageModal').classList.remove('active');
             document.body.style.overflow = 'auto';
         }
 
-        // Close modal on Escape key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-        // Анимация при загрузке
         window.addEventListener('load', () => {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach((section, index) => {
+            document.querySelectorAll('.section').forEach((section, i) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'opacity 0.5s, transform 0.5s';
                 setTimeout(() => {
-                    section.style.opacity = '0';
-                    section.style.transform = 'translateY(20px)';
-                    section.style.transition = 'opacity 0.5s, transform 0.5s';
-                    setTimeout(() => {
-                        section.style.opacity = '1';
-                        section.style.transform = 'translateY(0)';
-                    }, 50);
-                }, index * 100);
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, i * 100);
             });
         });
 
-        // Готов к показу
         tg.ready();
     </script>
 </body>
